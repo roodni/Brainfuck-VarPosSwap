@@ -5,6 +5,25 @@
     <link href="style.css" rel="stylesheet">
 </head>
 <body>
+    <div>
+        <h1>なんか</h1>
+    </div>
+    <div>
+        <input type="button" id="run" value="実行">
+        <p id="msg">メッセージが出る</p>
+    </div>
+    <div>
+        <p>コード入力：</p>
+        <textarea rows="5" id="code_input"></textarea>
+    </div>
+    <div>
+        <p>圧縮（<span id="bytes_compressed">0</span> バイト）：</p>
+        <textarea rows="5" readonly id="code_compressed"></textarea>
+    </div>
+    <div>
+        <p>変換（<span id="bytes_swaped">0</span> バイト）：</p>
+        <textarea rows="5" readonly id="code_swaped"></textarea>
+    </div>
     <script src="main.js"></script>
 </body>
 </html>
