@@ -22,11 +22,47 @@
         return code;
     };
 
+    // 変数位置を入れ替えやすい中間コードの作成
+    const makeChukanCode = (code) => {
+        code = compressCode(code);
+        let
+            chukanCode = [],
+            pos = 0,
+            miniCode = "";
+        const pushCode = () => {
+            chukanCode.push({
+                pos: pos,
+                code: miniCode
+            });
+            miniCode = "";
+        };
+        for (let c of code) {
+            if ((c === ">" || c === "<") && miniCode !== "") {
+                pushCode();
+            }
+            switch (c) {
+                case ">":
+                pos++;
+                break;
+                case "<":
+                pos--;
+                break;
+                default:
+                miniCode += c;
+                break;
+            }
+        }
+        pushCode();
+        
+        return chukanCode;
+    };
+
     $run.addEventListener("click", () => {
-        const unko = compressCode($code_input.value);
-        $code_compressed.value = unko;
-        //console.clear();
-        //console.log(unko);
+        const po = makeChukanCode($code_input.value);
+        console.clear();
+        for (let s of po) {
+            console.log(s);
+        }
     })
     
 }
