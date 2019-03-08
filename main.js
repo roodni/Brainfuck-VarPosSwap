@@ -14,6 +14,10 @@ const
     $bytes_swaped = $("#bytes_swaped"),
     $info_log = $("#info_log");
 
+// ** グローバル変数 **
+let g_chukanCode; // 中間コードを格納する
+let g_varPosTable; // 変数位置変換表
+
 // 命令外文字および+-,<>を削除
 function compressCode(code) {
     code = code.replace(/[^+\-><\[\].,]/g, "");
@@ -151,7 +155,7 @@ function getVarPosList(chukan) {
 }
 
 // 変数位置リストから変数位置入力テーブルを作成、画面に反映する
-function makeVarPosTable(varPosList) {
+function makeVarPosTableDOM(varPosList) {
     for (let varPos of varPosList) {
         const elm_tr = document.createElement("tr");
 
@@ -168,7 +172,15 @@ function makeVarPosTable(varPosList) {
         const elm_num = document.createElement("input");
         elm_num.classList.add("varpos__num-input");
         elm_num.type = "number";
-        elm_num.value = "" + varPos;
+        elm_num.value = varPos;
+        elm_num.addEventListener("change", () => {
+            let num = parseInt(elm_num.value);
+            if (isNaN(num)) {
+                num = varPos;
+            }
+            elm_num.value = num;
+            g_varPosTable[varPos] = num;
+        });
         elm_td_new.appendChild(elm_num);
         
         $varpos_tbody.appendChild(elm_tr);
@@ -176,18 +188,25 @@ function makeVarPosTable(varPosList) {
 }
 
 $code_input.addEventListener("change", () => {
-    const chukan = makeChukanCode($code_input.value);
-    const check = codeCheck($code_input.value);
+    g_chukanCode = makeChukanCode($code_input.value);
 
+    const check = codeCheck($code_input.value);
     $info_log.value = check.msg;
 
     // 変数位置入力テーブルをすべて削除
     while ($varpos_tbody.firstChild) {
         $varpos_tbody.removeChild($varpos_tbody.firstChild);
     }
-    makeVarPosTable(getVarPosList(chukan));
+    g_varPosTable = {};
+    makeVarPosTableDOM(getVarPosList(g_chukanCode));
     
-    const code = makeCodeFromChukan(chukan, {});
+    const code = makeCodeFromChukan(g_chukanCode, {});
     $code_compressed.value = code;
     $bytes_compressed.innerText = code.length;
+});
+
+$run.addEventListener("click", () => {
+    const code = makeCodeFromChukan(g_chukanCode, g_varPosTable);
+    $code_swaped.value = code;
+    $bytes_swaped.innerText = code.length;
 });
