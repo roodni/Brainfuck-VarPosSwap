@@ -8,9 +8,11 @@
         $code_input = $("#code_input"),
         $code_compressed = $("#code_compressed"),
         $code_swaped = $("#code_swaped"),
+        $varpos_tbody = $("#varpos_tbody"),
         $run = $("#run"),
         $bytes_compressed = $("#bytes_compressed"),
-        $bytes_swaped = $("#bytes_swaped");
+        $bytes_swaped = $("#bytes_swaped"),
+        $info_log = $("#info_log");
 
     // 命令外文字および+-,<>を削除
     const compressCode = (code) => {
