@@ -139,13 +139,29 @@ function makeCodeFromChukan(chukan, table) {
     return code;
 };
 
+// 中間コードから使用する変数位置のソート済みリストを得る
+function getVarPosList(chukan) {
+    let used = new Set();
+    for (let c of chukan) {
+        used.add(c.pos);
+    }
+    let result = [...used.values()];
+    result.sort((a, b) => a - b);
+    return result;
+}
+
 $code_input.addEventListener("change", () => {
-    const po = makeChukanCode($code_input.value);
+    const chukan = makeChukanCode($code_input.value);
     const check = codeCheck($code_input.value);
 
     $info_log.value = check.msg;
+
+    // 変数位置入力テーブルをすべて削除
+    // while ($varpos_tbody.firstChild) {
+    //     $varpos_tbody.removeChild($varpos_tbody.firstChild);
+    // }
     
-    const code = makeCodeFromChukan(po, {});
+    const code = makeCodeFromChukan(chukan, {});
     $code_compressed.value = code;
     $bytes_compressed.innerText = code.length;
 });
