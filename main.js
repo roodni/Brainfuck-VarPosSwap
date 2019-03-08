@@ -150,6 +150,31 @@ function getVarPosList(chukan) {
     return result;
 }
 
+// 変数位置リストから変数位置入力テーブルを作成、画面に反映する
+function makeVarPosTable(varPosList) {
+    for (let varPos of varPosList) {
+        const elm_tr = document.createElement("tr");
+
+        const elm_td_original = document.createElement("td");
+        elm_td_original.classList.add("varpos__cell", "varpos__td-original");
+        elm_tr.appendChild(elm_td_original);
+
+        elm_td_original.appendChild(document.createTextNode(varPos));
+
+        const elm_td_new = document.createElement("td");
+        elm_td_new.classList.add("varpos__cell", "varpos__td-new");
+        elm_tr.appendChild(elm_td_new);
+
+        const elm_num = document.createElement("input");
+        elm_num.classList.add("varpos__num-input");
+        elm_num.type = "number";
+        elm_num.value = "" + varPos;
+        elm_td_new.appendChild(elm_num);
+        
+        $varpos_tbody.appendChild(elm_tr);
+    }
+}
+
 $code_input.addEventListener("change", () => {
     const chukan = makeChukanCode($code_input.value);
     const check = codeCheck($code_input.value);
@@ -157,9 +182,10 @@ $code_input.addEventListener("change", () => {
     $info_log.value = check.msg;
 
     // 変数位置入力テーブルをすべて削除
-    // while ($varpos_tbody.firstChild) {
-    //     $varpos_tbody.removeChild($varpos_tbody.firstChild);
-    // }
+    while ($varpos_tbody.firstChild) {
+        $varpos_tbody.removeChild($varpos_tbody.firstChild);
+    }
+    makeVarPosTable(getVarPosList(chukan));
     
     const code = makeCodeFromChukan(chukan, {});
     $code_compressed.value = code;
