@@ -156,6 +156,8 @@ function getVarPosList(chukan) {
 
 // 変数位置リストから変数位置入力テーブルを作成、画面に反映する
 function makeVarPosTableDOM(varPosList) {
+    const num_max = Math.max(100, varPosList[varPosList.length - 1]);
+
     for (let varPos of varPosList) {
         const elm_tr = document.createElement("tr");
 
@@ -173,10 +175,16 @@ function makeVarPosTableDOM(varPosList) {
         elm_num.classList.add("varpos__num-input");
         elm_num.type = "number";
         elm_num.value = varPos;
+        elm_num.max = num_max;
+        elm_num.min = -num_max;
         elm_num.addEventListener("change", () => {
             let num = parseInt(elm_num.value);
             if (isNaN(num)) {
                 num = varPos;
+            } else if (num > num_max) {
+                num = num_max;
+            } else if (num < -num_max) {
+                num = -num_max;
             }
             elm_num.value = num;
             g_varPosTable[varPos] = num;
