@@ -195,18 +195,36 @@ function makeVarPosTableDOM(varPosList) {
     }
 }
 
-$code_input.addEventListener("change", () => {
-    const chukan = makeChukanCode($code_input.value);
+// runボタンの使用可能/使用禁止
+function enableRunButton() {
+    $run.innerText = "→";
+    $run.disabled = false;
+}
+function disableRunButton() {
+    $run.innerText = "禁";
+    $run.disabled = true;
+}
 
-    const check = codeCheck($code_input.value);
-    $info_log.value = check.msg;
+$code_input.addEventListener("focus", () => {
+    disableRunButton();
+});
+$code_input.addEventListener("blur", () => {
+    const chukan = makeChukanCode($code_input.value);
 
     // 変数位置入力テーブルをすべて削除
     while ($varpos_tbody.firstChild) {
         $varpos_tbody.removeChild($varpos_tbody.firstChild);
     }
-    g_varPosTable = {};
-    makeVarPosTableDOM(getVarPosList(chukan));
+
+    const check = codeCheck($code_input.value);
+    $info_log.value = check.msg;
+    if (check.ok) {
+        g_varPosTable = {};
+        makeVarPosTableDOM(getVarPosList(chukan));
+        enableRunButton();
+    } else {
+        disableRunButton();
+    }
     
     const code = makeCodeFromChukan(chukan, {});
     $code_compressed.value = code;
