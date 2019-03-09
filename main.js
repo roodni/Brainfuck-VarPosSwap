@@ -17,6 +17,7 @@ const
 // ** グローバル変数 **
 let g_chukanCode = []; // 中間コードを格納する
 let g_varPosTable = {}; // 変数位置変換表
+let g_varPosInputs = {}; // 変数位置入力テーブルのinput要素へのアクセス
 
 // 命令外文字および+-,<>を削除
 function compressCode(code) {
@@ -154,10 +155,18 @@ function getVarPosList(chukan) {
     return result;
 }
 
-// 変数位置リストから変数位置入力テーブルを作成、画面に反映する
-function makeVarPosTableDOM(varPosList) {
-    const num_max = Math.max(100, varPosList[varPosList.length - 1]);
+// グローバルの変数位置変換表初期化
+function initVarPosTable(varPosList) {
+    g_varPosTable = {};
+    for (let varPos of varPosList) {
+        g_varPosTable[varPos] = varPos;
+    }
+}
 
+// 変数位置リストから変数位置入力テーブルを作成、画面に反映する
+function makeVarPosInput(varPosList) {
+    const num_max = Math.max(100, varPosList[varPosList.length - 1]);
+    g_varPosInputs = {};
     for (let varPos of varPosList) {
         const elm_tr = document.createElement("tr");
 
@@ -188,11 +197,36 @@ function makeVarPosTableDOM(varPosList) {
             }
             elm_num.value = num;
             g_varPosTable[varPos] = num;
+
+            // 重複検出、表示
+            const duplication = findVarPosDuplication(g_varPosTable);
+            for (let varPosInput of Object.values(g_varPosInputs)) {
+                varPosInput.classList.remove("varpos__num-input--duplicate");
+            }
+            for (let varPos of duplication) {
+                g_varPosInputs[varPos].classList.add("varpos__num-input--duplicate");
+            }
         });
         elm_td_new.appendChild(elm_num);
+        g_varPosInputs[varPos] = elm_num;
         
         $varpos_tbody.appendChild(elm_tr);
     }
+}
+
+// 変数位置変換表の重複を検出
+// result：重複のあったoriginalのvarPosを列挙した配列
+function findVarPosDuplication(varPosTable) {
+    let result = [];
+    for (let i of Object.keys(varPosTable)) {
+        for (let j of Object.keys(varPosTable)) {
+            if (j !== i && varPosTable[j] === varPosTable[i]) {
+                result.push(i);
+                break;
+            }
+        }
+    }
+    return result;
 }
 
 // runボタンの使用可能/使用禁止
@@ -219,8 +253,9 @@ $code_input.addEventListener("blur", () => {
     const check = codeCheck($code_input.value);
     $info_log.value = check.msg;
     if (check.ok) {
-        g_varPosTable = {};
-        makeVarPosTableDOM(getVarPosList(chukan));
+        const varPosList = getVarPosList(chukan);
+        initVarPosTable(varPosList);
+        makeVarPosInput(varPosList);
         enableRunButton();
     } else {
         disableRunButton();
@@ -239,7 +274,15 @@ $code_input.addEventListener("blur", () => {
 });
 
 $run.addEventListener("click", () => {
+    const duplication = findVarPosDuplication(g_varPosTable);
+
     const code = makeCodeFromChukan(g_chukanCode, g_varPosTable);
     $code_swaped.value = code;
     $bytes_swaped.innerText = code.length;
+
+    if (duplication.length !== 0) {
+        $info_log.value += "警告：変数位置が重複していますが、変換を行いました。\n";
+    } else {
+        $info_log.value += "正常に変換を行いました。\n";
+    }
 });

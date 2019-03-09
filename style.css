@@ -67,6 +67,10 @@ html {
     text-align: left;
     font-family: monospace;
     font-size: 1rem;
+    border: 1px solid silver;
+}
+.varpos__num-input--duplicate {
+    background-color: #FADBDA;
 }
 
 .arrow {
