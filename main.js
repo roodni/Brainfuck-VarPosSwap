@@ -70,7 +70,7 @@ function codeCheck(code) {
                         info.posErrorIgnore = true;
                     }
                     result.ok = false;
-                    result.msg += `注意：'['の直後と対応する']'の直前でポインタが変化しているため、変数位置入れ替え機能を利用できません。（行${blockInfo.line}、行${blockInfo.col}）\n`;
+                    result.msg += `注意：'['の直後と対応する']'の直前でポインタが変化しているため、変数位置入れ替え機能を利用できません。（行${blockInfo.line}、列${blockInfo.col}）\n`;
                 }
             }
             break;
