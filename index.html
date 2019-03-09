@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Brainf*ck変数位置入れ替え</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="box">
+        <div class="code box__item">
+            <p class="code__label">コード入力：</p>
+            <textarea id="code_input" class="code__textarea code__textarea--type_input"></textarea>
+        </div>
+        <div class="varpos box__item">
+            <p class="varpos__label">
+                変数位置：
+            </p>
+            <table class="varpos__table">
+                <thead>
+                    <tr>
+                        <th class="varpos__cell">元の位置</th>
+                        <th class="varpos__cell">新しい位置</th>
+                    </tr>
+                </thead>
+                <tbody id="varpos_tbody">
+                    <!--<tr>
+                        <td class="varpos__cell varpos__td-original">0</td>
+                        <td class="varpos__cell varpos__td-new">
+                            <input type="number" class="varpos__num-input">
+                        </td>
+                    </tr>-->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="box">
+        <div class="code box__item">
+            <p class="code__label">
+                圧縮（<span id="bytes_compressed">0</span> バイト）：
+            </p>
+            <textarea readonly id="code_compressed" class="code__textarea code__textarea--type_view"></textarea>
+        </div>
+        <div class="arrow box__item">
+            <button id="run" class="arrow__text">→</button>
+        </div>
+        <div class="code box__item">
+            <p class="code__label">
+                変換（<span id="bytes_swaped">0</span> バイト）：
+            </p>
+            <textarea readonly id="code_swaped" class="code__textarea code__textarea--type_view"></textarea>
+        </div>
+    </div>
+    <div class="box">
+        <div class="code box__item">
+            <p class="code__label">
+                ログ：
+            </p>
+            <textarea readonly id="info_log" class="code__textarea code__textarea--type_log"></textarea>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

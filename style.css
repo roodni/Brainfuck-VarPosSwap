@@ -1,0 +1,84 @@
+html {
+    font-size: 16px;
+}
+
+.box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: auto;
+    margin: 4px 32px 16px;
+}
+.box__item {
+    margin: 0px 12px;
+}
+
+
+.code {
+    flex-grow: 1;
+}
+.code__label {
+    margin: 0px;
+}
+.code__textarea {
+    font-family: monospace;
+    resize: none;
+    word-break: break-all;
+    box-sizing: border-box;
+    width: 100%;
+}
+.code__textarea--type_input {
+    height: 15rem;
+}
+.code__textarea--type_view {
+    height: 5rem;
+}
+.code__textarea--type_log {
+    height: 6em;
+}
+
+.varpos {
+    /*flex-grow: 0.25;*/
+    width: 320px;
+}
+.varpos__label {
+    margin: 0px;
+}
+.varpos__table {
+    border: 1px solid gray;
+    border-collapse: collapse;
+    box-sizing: border-box;
+    width: 100%;
+}
+.varpos__cell {
+    border: 1px dotted silver;
+}
+.varpos__td-original {
+    text-align: right;
+    padding-right: 32px;
+    font-family: monospace;
+    font-size: 1rem;
+}
+.varpos__td-new {
+    text-align: center;
+}
+.varpos__num-input {
+    width: auto;
+    text-align: left;
+    font-family: monospace;
+    font-size: 1rem;
+    border: 1px solid silver;
+}
+.varpos__num-input--duplicate {
+    background-color: #FADBDA;
+}
+
+.arrow {
+    align-self: center;
+}
+.arrow__text {
+    margin: 0px;
+    width: 4rem;
+    height: 4rem;
+    font-size: 3rem;
+}
