@@ -38,7 +38,8 @@ html {
 }
 
 .varpos {
-    flex-grow: 0.25;
+    /*flex-grow: 0.25;*/
+    width: 320px;
 }
 .varpos__label {
     margin: 0px;
@@ -54,7 +55,7 @@ html {
 }
 .varpos__td-original {
     text-align: right;
-    padding-right: 12px;
+    padding-right: 32px;
     font-family: monospace;
     font-size: 1rem;
 }
@@ -63,9 +64,13 @@ html {
 }
 .varpos__num-input {
     width: auto;
-    text-align: right;
+    text-align: left;
     font-family: monospace;
     font-size: 1rem;
+    border: 1px solid silver;
+}
+.varpos__num-input--duplicate {
+    background-color: #FADBDA;
 }
 
 .arrow {
