@@ -15,8 +15,8 @@ const
     $info_log = $("#info_log");
 
 // ** グローバル変数 **
-let g_chukanCode; // 中間コードを格納する
-let g_varPosTable; // 変数位置変換表
+let g_chukanCode = []; // 中間コードを格納する
+let g_varPosTable = {}; // 変数位置変換表
 
 // 命令外文字および+-,<>を削除
 function compressCode(code) {
@@ -196,7 +196,7 @@ function makeVarPosTableDOM(varPosList) {
 }
 
 $code_input.addEventListener("change", () => {
-    g_chukanCode = makeChukanCode($code_input.value);
+    const chukan = makeChukanCode($code_input.value);
 
     const check = codeCheck($code_input.value);
     $info_log.value = check.msg;
@@ -206,11 +206,18 @@ $code_input.addEventListener("change", () => {
         $varpos_tbody.removeChild($varpos_tbody.firstChild);
     }
     g_varPosTable = {};
-    makeVarPosTableDOM(getVarPosList(g_chukanCode));
+    makeVarPosTableDOM(getVarPosList(chukan));
     
-    const code = makeCodeFromChukan(g_chukanCode, {});
+    const code = makeCodeFromChukan(chukan, {});
     $code_compressed.value = code;
     $bytes_compressed.innerText = code.length;
+
+    // 圧縮後のコードが変化したらswapedをクリア
+    if (code !== makeCodeFromChukan(g_chukanCode, {})) {
+        $code_swaped.value = "";
+        $bytes_swaped.innerText = 0;
+    }
+    g_chukanCode = chukan;
 });
 
 $run.addEventListener("click", () => {
