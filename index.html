@@ -7,6 +7,9 @@
 </head>
 <body>
     <div class="box">
+        <h1 class="box__item">Brainf*ck変数位置入れ替え</h1>
+    </div>
+    <div class="box box--flex">
         <div class="code box__item">
             <p class="code__label">コード入力：</p>
             <textarea id="code_input" class="code__textarea code__textarea--type_input"></textarea>
@@ -33,7 +36,7 @@
             </table>
         </div>
     </div>
-    <div class="box">
+    <div class="box box--flex">
         <div class="code box__item">
             <p class="code__label">
                 圧縮（<span id="bytes_compressed">0</span> バイト）：
@@ -57,6 +60,45 @@
             </p>
             <textarea readonly id="info_log" class="code__textarea code__textarea--type_log"></textarea>
         </div>
+    </div>
+    <div class="box">
+        <h2 class="box__item">機能</h2>
+        <p class="box__item">
+            Brainfuckプログラムが使用する変数のメモリ割り当てを自由に変更することができます。<br>
+            <code>[</code>直後とそれに対応する<code>]</code>直前でデータポインタが変化しないコードが対象です。
+        </p>
+
+        <h2 class="box__item">使い方</h2>
+        <ol class="box__item">
+            <li>
+                「コード入力」エリアに変換したいコードを貼り付ける<br>
+                自動的にコードが解析され、使用変数位置一覧と圧縮されたコードが表示されます。  
+            </li>
+            <li>
+                「変数位置」欄で変数位置を設定
+            </li>
+            <li>
+                「→」ボタンで変換<br>
+                変換後のコードが「変換」エリアに出力されます。
+            </li>
+        </ol>
+
+        <h2 class="box__item">動作環境</h2>
+        <p class="box__item">
+            最新版のChromeおよびSafariで動作を確認しています。
+        </p>
+
+        <h2 class="box__item">更新履歴</h2>
+        <!-- 1.0.1 -->
+        <h3 class="box__item">1.0.1 (2019-3-14)</h3>
+        <ul class="box__item">
+            <li>雑な説明文を追加した。</li>
+        </ul>
+        <!-- 1.0.0 -->
+        <h3 class="box__item">1.0.0 (2019-3-9)</h3>
+        <ul class="box__item">
+            <li>初公開。</li>
+        </ul>
     </div>
 
     <script src="main.js"></script>
